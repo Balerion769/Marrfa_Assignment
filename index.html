@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment for Marrfa</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1, #fbc2eb);
+      background-size: 400% 400%;
+      animation: gradientAnimation 10s ease infinite;
+      color: #333;
+    }
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .header {
+      text-align: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .search-box {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 15px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    input[type="text"]:focus {
+      border-color: #6a11cb;
+      box-shadow: 0 0 8px rgba(106, 17, 203, 0.3);
+    }
+    select {
+      margin-top: 10px;
+      padding: 15px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    select:focus {
+      border-color: #2575fc;
+      box-shadow: 0 0 8px rgba(37, 117, 252, 0.3);
+    }
+    .results {
+      list-style: none;
+      padding: 0;
+    }
+    .results li {
+      padding: 15px;
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      background: #f9f9f9;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .results li:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .results li span {
+      font-weight: bold;
+      color: #2575fc;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    Assignment for Marrfa
+  </div>
+  <div class="container">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search blog posts..." />
+      <select id="filterSelect">
+        <option value="">All Categories</option>
+        <option value="Category 1">Category 1</option>
+        <option value="Category 2">Category 2</option>
+        <option value="Category 3">Category 3</option>
+      </select>
+    </div>
+    <ul id="results" class="results"></ul>
+  </div>
+
+  <script>
+    const data = [
+      { title: "Post 1", category: "Category 1" },
+      { title: "Post 2", category: "Category 2" },
+      { title: "Post 3", category: "Category 1" },
+      { title: "Post 4", category: "Category 3" },
+    ];
+
+    const searchInput = document.getElementById("searchInput");
+    const filterSelect = document.getElementById("filterSelect");
+    const results = document.getElementById("results");
+
+    const renderResults = (filteredData) => {
+      results.innerHTML = "";
+      filteredData.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `${item.title} <span>(${item.category})</span>`;
+        results.appendChild(li);
+      });
+    };
+
+    const handleSearch = () => {
+      const query = searchInput.value.toLowerCase();
+      const filter = filterSelect.value;
+      const filteredData = data.filter(item => 
+        item.title.toLowerCase().includes(query) && 
+        (filter ? item.category === filter : true)
+      );
+      renderResults(filteredData);
+    };
+
+    searchInput.addEventListener("input", handleSearch);
+    filterSelect.addEventListener("change", handleSearch);
+
+    // Initial render
+    renderResults(data);
+  </script>
+</body>
+</html>
